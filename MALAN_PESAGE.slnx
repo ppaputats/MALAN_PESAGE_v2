@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Common/Common.csproj" />
+  <Project Path="Hardware/Hardware.csproj" />
+  <Project Path="Software/Software.csproj" />
+  <Project Path="UI_MALAN_PESAGE/UI_MALAN_PESAGE.csproj" Id="7e9f57c8-b5cc-481a-b475-15b38d30e6ff" />
+</Solution>
