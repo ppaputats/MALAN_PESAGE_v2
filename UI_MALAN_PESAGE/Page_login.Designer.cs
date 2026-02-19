@@ -68,6 +68,7 @@
             this.Label_username.Size = new System.Drawing.Size(258, 38);
             this.Label_username.TabIndex = 11;
             this.Label_username.Text = "Nom d\'utilisateur";
+            this.Label_username.Click += new System.EventHandler(this.Label_username_Click);
             // 
             // Txt_password
             // 

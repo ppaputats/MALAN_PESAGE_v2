@@ -1,7 +1,7 @@
 ﻿/* ==================================================================================================
  *  Projet      : Expe
- *  Module      : Software/Requete/Login
- *  Fichier     : Request.login.cs
+ *  Module      : UI_MALAN_PESAGE
+ *  Fichier     : Page_login.cs
  *  Auteur      : Paul Paput
  *  Création    : 16/02/26
  *  Description : Fonctions spécifiques à la page de connexion des utilisateurs
@@ -45,6 +45,17 @@ namespace UI_MALAN_PESAGE
 
         private void Btn_connection_Click(object sender, EventArgs e)
         {
+            if (Login_request())
+            {
+            }
+            else
+            {
+                MessageBox.Show("Erreur de conexion");
+            }
+        }
+
+        private bool Login_request()
+        {
             Log_error log_Error = new Log_error();
             Request_login request_Login = new Request_login();
 
@@ -56,6 +67,7 @@ namespace UI_MALAN_PESAGE
             if (login_pass == false)
             {
                 Console.WriteLine("Connexion impossible pour cet utilisateur");
+                return false;
             }
             else
             {
@@ -66,21 +78,21 @@ namespace UI_MALAN_PESAGE
                     if (isAdmin == true)
                     {
                         Console.WriteLine("Connexion réussie en mode admin au menu admin");
+                        return true;
                     }
                     else
                     {
                         Console.WriteLine("Connexion réussie en mode admin au menu utilisateur");
-                        
+
                         // Ouverture de la page utilisateur : Page_main
                         Page_main page_Main = new Page_main();
                         page_Main.Show();
 
                         // Stockage utilisateur
-                        Program program = new Program();
-                        program.id_user = username;
+                        Program.id_user = username;
                         // Fermeture de la page de connexion
                         this.Hide();
-                        return;
+                        return true;
                     }
                 }
                 else
@@ -90,42 +102,19 @@ namespace UI_MALAN_PESAGE
                     // Ouverture de la page utilisateur : Page_main
                     Page_main page_Main = new Page_main();
                     page_Main.Show();
-                    
+
                     // Stockage utilisateur
-                    Program program = new Program();
-                    program.id_user = username;
+                    Program.id_user = username;
 
                     // Fermeture de la page de connexion
                     this.Hide();
-                    return;
+                    return true;
                 }
 
             }
         }
-
-
         private void CheckBx_Admin_CheckedChanged(object sender, EventArgs e)
         {
-            //// Test
-            //Log_error logger = new Log_error();
-
-            //Console.WriteLine("Début du test de log...");
-
-            //try
-            //{
-            //    // 2. On provoque une erreur volontaire
-            //    int a = 10;
-            //    int b = 0;
-            //    int result = a / b;
-            //}
-            //catch (Exception ex)
-            //{
-            //    // 3. Appel de ta méthode pour enregistrer l'erreur
-            //    Console.WriteLine("Une erreur est survenue, enregistrement dans l'Event Viewer...");
-            //    logger.Log_Error(ex);
-            //}
-            //Console.WriteLine("Test terminé. Appuyez sur une touche pour quitter.");
-            //// Test
 
             if (CheckBx_Admin.Checked)
             {
@@ -156,6 +145,11 @@ namespace UI_MALAN_PESAGE
 
         public void Txt_username_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void Label_username_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

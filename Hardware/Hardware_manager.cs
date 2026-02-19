@@ -10,11 +10,11 @@ namespace Hardware
     {
         // On stocke l'objet complet pour avoir accès au HardwareName ET au Status
         private readonly Dictionary<string, PortMapping> _portMap;
-
         public Hardware_manager()
         {
-            Console.WriteLine("Enter in H_manager");
             var baseDir = AppContext.BaseDirectory;
+
+            // Scan des lieux de stockage probables 
             var candidates = new[]
             {
                 Path.Combine(baseDir, "Port.json"),
@@ -63,7 +63,6 @@ namespace Hardware
                     "Clés 'softwareName' dupliquées dans Port.json : " + string.Join(", ", dupes)
                 );
 
-            // CORRECTION ToDictionary : On mappe le nom vers l'objet de mapping complet
             _portMap = cfg.Ports.ToDictionary(
                 p => EnsureNotEmpty(p.SoftwareName, nameof(PortMapping.SoftwareName)),
                 p => p,
@@ -73,6 +72,7 @@ namespace Hardware
 
         public bool TryGetPort(string softwareName, out string hardwareName)
         {
+            // Lien entre le nom software et le nom harware
             hardwareName = null;
             if (string.IsNullOrWhiteSpace(softwareName))
                 return false;
@@ -85,7 +85,7 @@ namespace Hardware
             return false;
         }
 
-        // Nouvelle méthode pour récupérer aussi le statut si besoin
+        // Récupération du status du compososant
         public string GetStatus(string softwareName)
         {
             return _portMap.TryGetValue(softwareName, out var mapping) ? mapping.Status : "Unknown";

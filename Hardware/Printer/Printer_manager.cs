@@ -31,14 +31,15 @@ namespace Hardware.Printer
             Printer_driver printer_driver = new Printer_driver();
             Printer_ZPL_Builder printer_ZPL_Builder = new Printer_ZPL_Builder();
             ZPL_helper printer_helper = new ZPL_helper();
-            Console.WriteLine("Début du cycle d'impression...");
 
             try
             {
                 // On récupère le port de l'imprimante
                 if (!Hardware_manager.TryGetPort("Printer", out string port) || port == null)
                 {
-                    Console.WriteLine("Erreur : Port de l'imprimante non trouvé.");
+                    Log_error log_Error = new Log_error();
+                    Exception ex = new Exception("Erreur lors de la récupération du port de la palette");
+                    log_Error.Log_Error(ex);
                     return;
                 }
 
@@ -60,9 +61,10 @@ namespace Hardware.Printer
                 }
                 
             }
-            catch
+            catch (Exception ex) 
             {
-                Console.WriteLine("Erreur : Une exception s'est produite lors du cycle d'impression.");
+                Log_error log_Error = new Log_error();
+                log_Error.Log_Error(ex);
             }
         }
     }

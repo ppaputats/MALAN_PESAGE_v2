@@ -1,4 +1,16 @@
-﻿using Hardware;
+﻿/* ==================================================================================================
+ *  Projet      : Expe
+ *  Module      : UI_MALAN_PESAGE
+ *  Fichier     : Page_main.cs
+ *  Auteur      : Paul Paput
+ *  Création    : 16/02/26
+ *  Description : Fonctions spécifiques à la page de principale
+ *  Historique :
+ *      - 16/02/26 : Création de la classe — Paul Paput
+ *
+ * ================================================================================================ */
+
+using Hardware;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,43 +67,11 @@ namespace UI_MALAN_PESAGE
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             // Code pour allumer ou éteindre le voyant en fonction du status
-            //if
 
         }
 
         private void Btn_periph_Click(object sender, EventArgs e)
         {
-
-            try
-            {
-                // 1. Initialisation (Le constructeur cherche et lit le fichier Port.json ici)
-                var manager = new Hardware_manager();
-
-                // 2. Utilisation
-                string softwareKey = "Capteur_Pression_01";
-
-                if (manager.TryGetPort(softwareKey, out string hardwarePort))
-                {
-                    string status = manager.GetStatus(softwareKey);
-                    Console.WriteLine($"Clé : {softwareKey} -> Port : {hardwarePort} (Status: {status})");
-                }
-                else
-                {
-                    Console.WriteLine($"La clé '{softwareKey}' n'existe pas dans le fichier de config.");
-                }
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine($"Erreur : Fichier manquant ! {ex.Message}");
-            }
-            catch (InvalidDataException ex)
-            {
-                Console.WriteLine($"Erreur de formatage : {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Une erreur imprévue est survenue : {ex.Message}");
-            }
         }
 
         private void Btn_palette_Click(object sender, EventArgs e)

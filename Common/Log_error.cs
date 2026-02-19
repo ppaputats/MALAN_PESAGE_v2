@@ -11,38 +11,60 @@
  * ================================================================================================ */
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 
 namespace Common
-{
+{ 
     public class Log_error
     {
-
-
+        // Chemin relatif pour remonter à la racine de la solution depuis le dossier /bin/Debug
+        private readonly string logPath = "C:\\Users\\Paulp\\Documents\\C#\\Proto2\\UI_MALAN_PESAGE\\logs_erreurs.txt";
         public void Log_Error(Exception ex)
+        {
+            Console.WriteLine("Entrée Log_error");
+            try
+            {
+                // 1. Préparation du message (Lisible et structuré)
+                string divider = new string('-', 80);
+                string logEntry = $"{divider}\n" +
+                                  $"DATE    : {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n" +
+                                  $"MESSAGE : {ex.Message}\n" +
+                                  $"{divider}\n\n";
+
+                // 2. Écriture (Append) dans le fichier
+                File.AppendAllText(logPath, logEntry);
+
+                // 3. Maintenance : Garder seulement les 100 dernières entrées
+                GérerTailleFichier();
+
+                // Affichage console pour le debug immédiat
+                Console.WriteLine("Erreur consignée dans le fichier log.");
+            }
+            catch (Exception errorLog)
+            {
+                // Si même le log échoue, on écrit au moins dans la console
+                Console.WriteLine("Échec de l'écriture du log : " + errorLog.Message);
+            }
+        }
+
+        private void GérerTailleFichier()
         {
             try
             {
-                // Vérifier si la source existe, sinon la créer
-                // Note : Cela peut lever une exception si l'app n'est pas lancée en Admin
-                //if (!EventLog.SourceExists(sourceName))
-                //{
-                //    EventLog.CreateEventSource(sourceName, logName);
-                //}
-
-                // Construire le message d'erreur
-                string message = $"Message: {ex.Message}\n\nStack Trace:\n{ex.StackTrace}";
-                Console.WriteLine(message);
-
-                // Écrire dans l'observateur d'événements
-                //EventLog.WriteEntry(sourceName, message, EventLogEntryType.Error);
+                if (File.Exists(logPath))
+                {
+                    var lines = File.ReadAllLines(logPath);
+                    // On estime qu'une erreur prend environ 10 lignes. 
+                    // Pour garder ~100 erreurs, on peut limiter à 1000 lignes.
+                    if (lines.Length > 1000)
+                    {
+                        File.WriteAllLines(logPath, lines.Skip(lines.Length - 1000));
+                    }
+                }
             }
-            catch (Exception)
-            {
-                // Si l'écriture échoue (souvent un problème de droits), on ne veut pas 
-                // faire planter l'appli entière, on peut afficher en console
-                Console.WriteLine("Impossible d'écrire dans l'Event Viewer. Droits admin requis ?");
-            }
+            catch { /* On ignore pour ne pas boucler sur une erreur de log */ }
         }
     }
 }

@@ -38,7 +38,9 @@ namespace Hardware.Scale
             {
                 if (!Hardware_manager.TryGetPort("Balance_colis", out string port_COM) || port_COM == null)
                 {
-                    Console.WriteLine("Port de la balance non trouvé dans la configuration.");
+                    Log_error log_Error = new Log_error();
+                    Exception ex = new Exception("Erreur lors de la récupération du port : " + port_COM + " de la palette");
+                    log_Error.Log_Error(ex);;
                     return poids;
                 }
 
@@ -46,7 +48,6 @@ namespace Hardware.Scale
                 {
                     if (scale_Driver.Scale_get_weight(port_COM, out double mesure))
                     {
-                        Console.WriteLine("Poids mesuré : " + mesure + " kg");
                         if (scale_Driver.Scale_disconnect(port_COM))
                         { 
                         }
@@ -73,7 +74,9 @@ namespace Hardware.Scale
             {
                 if (!Hardware_manager.TryGetPort("Balance_palette", out string port_COM) || port_COM == null)
                 {
-                    Console.WriteLine("Port de la balance non trouvé dans la configuration.");
+                    Log_error log_Error = new Log_error();
+                    Exception ex = new Exception("Erreur lors de la récupération du port : " + port_COM + " de la palette");
+                    log_Error.Log_Error(ex); ;
                     return poids;
                 }
 

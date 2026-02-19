@@ -12,7 +12,7 @@ namespace UI_MALAN_PESAGE
         /// Point d'entrée principal de l'application.
         /// </summary>
         /// 
-        public string id_user;
+        public static string id_user;
         [STAThread]
         static void Main()
         {

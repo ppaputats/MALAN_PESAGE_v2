@@ -35,7 +35,10 @@ namespace Hardware.Camera
             try
             {
                 if (!Hardware_manager.TryGetPort("Camera_colis", out string port) || port is null)
-                    throw new Exception("Port de la caméra colis non trouvé");
+                {
+                    Exception ex = new Exception("Port : " + port + " de la caméra colis non trouvé");
+                    log_Error.Log_Error(ex);
+                }
 
                 string Port_cam_colis = port;
 
@@ -50,13 +53,11 @@ namespace Hardware.Camera
                     }
                 }
                 
-                
-
                 Console.WriteLine(Port_cam_colis + " : Image capturée et sauvegardée à " + Save_path);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erreur lors de la capture d'image : {ex.Message}");
+                log_Error.Log_Error(ex);
             }
         }
 
@@ -65,12 +66,15 @@ namespace Hardware.Camera
             Hardware_manager Hardware_manager = new Hardware_manager();
             Camera_driver camera1_driver = new Camera_driver();
             Camera_driver camera2_driver = new Camera_driver();
-            Console.WriteLine("Entree dans la fonction Capture_palette");
+            Log_error log_Error = new Log_error();
             try
             {
                 // On récupère le port de la caméra 1
                 if (!Hardware_manager.TryGetPort("Camera_palette_1", out string port1) || port1 is null)
-                    throw new Exception("Port de la caméra colis non trouvé");
+                {
+                    Exception ex = new Exception("Port : " + port1 + " de la caméra colis non trouvé");
+                    log_Error.Log_Error(ex);
+                }
 
                 string Port_cam_palette_1 = port1;
                 Console.WriteLine($"Tentative de capture d'image au port {Port_cam_palette_1}");
@@ -88,7 +92,10 @@ namespace Hardware.Camera
 
                 // On récupère le port de la caméra 2
                 if (!Hardware_manager.TryGetPort("Camera_palette_2", out string port2) || port2 is null)
-                    throw new Exception("Port de la caméra colis non trouvé");
+                {
+                    Exception ex = new Exception("Port : " + port2 + " de la caméra colis non trouvé");
+                    log_Error.Log_Error(ex);
+                }
 
                 string Port_cam_palette_2 = port2;
                 Console.WriteLine($"Tentative de capture d'image au port {Port_cam_palette_2}");
@@ -106,7 +113,7 @@ namespace Hardware.Camera
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erreur lors de la capture d'image : {ex.Message}");
+                log_Error.Log_Error(ex);
             }
         }
     }
